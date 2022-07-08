@@ -1,0 +1,15 @@
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\bin\Debug\net6.0\SIMD_Test.exe
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\bin\Debug\net6.0\SIMD_Test.deps.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\bin\Debug\net6.0\SIMD_Test.runtimeconfig.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\bin\Debug\net6.0\SIMD_Test.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\bin\Debug\net6.0\SIMD_Test.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.csproj.AssemblyReference.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.AssemblyInfoInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.AssemblyInfo.cs
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\refint\SIMD_Test.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\SIMD_Test.genruntimeconfig.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\00SIMD\SIMD_Test\SIMD_Test\obj\Debug\net6.0\ref\SIMD_Test.dll
