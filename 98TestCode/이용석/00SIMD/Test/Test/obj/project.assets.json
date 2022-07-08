@@ -73,11 +73,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\Test\\Test\\Test.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\Test\\Test\\Test.csproj",
       "projectName": "Test",
-      "projectPath": "C:\\Users\\user\\Desktop\\Test\\Test\\Test.csproj",
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\Test\\Test\\Test.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\Test\\Test\\obj\\",
+      "outputPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\Test\\Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

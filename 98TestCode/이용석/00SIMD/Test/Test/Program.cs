@@ -34,7 +34,7 @@ public class Test
         var result = new int[lhs.Length];
         var i = 0;
         timer.Start();
-        for (int j = 0; j < 100000; ++j)
+        for (int j = 0; j < 10000000; ++j)
         {
             for (i = 0; i <= lhs.Length - simdLength; i += simdLength)
             {
@@ -61,7 +61,7 @@ public class Test
         var result = new int[lhs.Length];
 
         timer.Start();
-        for (int j = 0; j < 100000; ++j)
+        for (int j = 0; j < 10000000; ++j)
         {
             for (int i = 0; i < lhs.Length; ++i)
             {
