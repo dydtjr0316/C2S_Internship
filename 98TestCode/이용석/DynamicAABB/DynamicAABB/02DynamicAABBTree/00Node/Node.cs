@@ -1,6 +1,11 @@
-﻿using DynamicAABB._01Player;
+﻿#define TEST_VER_0712
+// Constainer Test Ver Switch
+// #undef TEST_VER_0712
+
+using DynamicAABB._01Player;
 
 namespace DynamicAABB._02DynamicAABBTree._00Node;
+
 
 public class Node
 {
@@ -11,8 +16,19 @@ public class Node
     private Node[] _childNodes = new Node[2]{null,null};
 
     //private bool isLeaf = true; //필요한가?
-    private int _depth = 0; // 필요한가?
+    private Int32 _depth = 0; // 필요한가?
     private bool _isDivided = false;
+    
+    #if TEST_VER_0712
+    // idx 접근이므로 음수 제외
+    private int _parentIdx;
+    private int _nextIdx;
+    private int _leftIdx;
+    private int _rightIdx;
+    
+    
+    private int _height;
+    #endif
 
     #endregion
 
@@ -60,6 +76,31 @@ public class Node
         return _childNodes;
     }
 
+    public void SetNextIdx(int nextIdx)
+    {
+        _nextIdx = nextIdx;
+    }
+
+    public int GetNextIdx()
+    {
+        return _nextIdx;
+    }
+
+    public void SetParentIdx(int parentIdx)
+    {
+        _parentIdx = parentIdx;
+    }
+
+    public void SetLeftIdx(int leftIdx)
+    {
+        _leftIdx = leftIdx;
+    }
+
+    public void SetRightIdx(int rightIdx)
+    {
+        _rightIdx = rightIdx;
+    }
+
     public ErrorCode GetChildNode(ref Node tempNode/*param 네이밍 다시 하기*/, in int idx)
     {
         if (_childNodes.Length < idx)
@@ -68,7 +109,7 @@ public class Node
         }
         tempNode = _childNodes[idx];
         
-        return ErrorCode.IDLE;
+        return ErrorCode.NONE;
     }
 
     public void SetChildNodes(Node childNode0, Node childNode1)
@@ -118,12 +159,16 @@ public class Node
     }
 
     #endregion
+    
+    
+}
 
-    public enum ErrorCode
-    {
-        IDLE,
-        CHILDNODE_OUT_OF_RANGE,
-        
-    }
+public enum ErrorCode
+{
+    NONE = 0,
+    CHILDNODE_OUT_OF_RANGE,
+    
+    
+    NODE_IDX_INITAILIZE = 1000000000
     
 }

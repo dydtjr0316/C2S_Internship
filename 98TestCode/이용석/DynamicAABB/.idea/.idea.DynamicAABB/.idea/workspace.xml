@@ -5,13 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="194be8a8-4189-4247-80d1-88544b6a8383" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00DynamicAABBTree/00Boundary Box/BoundingBox.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DynamicAABB/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DynamicAABB/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00DynamicAABBTree/DynamicAABBTree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00DynamicAABBTree/DynamicAABBTree.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00Node/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00Node/Node.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DynamicAABB/DynamicAABB.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DynamicAABB/DynamicAABB.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/de7177e8a31c1e501222daf218f2e9532ff54cdb767595dc7e94cc73c8e95f1/Int32.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -22,16 +28,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;SolutionBuilderGeneralOptionsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="DynamicAABB" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -61,7 +68,8 @@
       <option name="presentableId" value="Default" />
       <updated>1657509747090</updated>
       <workItem from="1657509751854" duration="3441000" />
-      <workItem from="1657587398920" duration="3297000" />
+      <workItem from="1657587398920" duration="9763000" />
+      <workItem from="1657607915974" duration="8648000" />
     </task>
     <servers />
   </component>
