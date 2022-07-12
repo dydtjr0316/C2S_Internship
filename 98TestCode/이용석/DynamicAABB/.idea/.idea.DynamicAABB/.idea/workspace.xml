@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="194be8a8-4189-4247-80d1-88544b6a8383" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DynamicAABB/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DynamicAABB/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00Node/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DynamicAABB/02DynamicAABBTree/00Node/Node.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +28,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -58,7 +60,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1657509747090</updated>
-      <workItem from="1657509751854" duration="3431000" />
+      <workItem from="1657509751854" duration="3441000" />
+      <workItem from="1657587398920" duration="3297000" />
     </task>
     <servers />
   </component>
