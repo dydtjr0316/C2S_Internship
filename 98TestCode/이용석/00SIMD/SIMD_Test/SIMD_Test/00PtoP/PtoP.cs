@@ -1,6 +1,7 @@
-﻿namespace SIMD_Test._00PtoP;
+﻿
 using System.Numerics;
 using System.Diagnostics;
+namespace SIMD_Test._00PtoP { }
 
 public class PtoP
 {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\SIMD_Test\\SIMD_Test\\SIMD_Test.csproj": {}
+    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\DynamicAABB\\DynamicAABB\\DynamicAABB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\SIMD_Test\\SIMD_Test\\SIMD_Test.csproj": {
+    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\DynamicAABB\\DynamicAABB\\DynamicAABB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\SIMD_Test\\SIMD_Test\\SIMD_Test.csproj",
-        "projectName": "SIMD_Test",
-        "projectPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\SIMD_Test\\SIMD_Test\\SIMD_Test.csproj",
+        "projectUniqueName": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\DynamicAABB\\DynamicAABB\\DynamicAABB.csproj",
+        "projectName": "DynamicAABB",
+        "projectPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\DynamicAABB\\DynamicAABB\\DynamicAABB.csproj",
         "packagesPath": "C:\\Users\\emtm9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\SIMD_Test\\SIMD_Test\\obj\\",
+        "outputPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\00SIMD\\DynamicAABB\\DynamicAABB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,15 +22,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -41,8 +41,8 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -53,6 +53,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.409\\RuntimeIdentifierGraph.json"
         }
       }
