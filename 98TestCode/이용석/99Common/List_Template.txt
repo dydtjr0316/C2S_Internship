@@ -1,0 +1,46 @@
+public static class ListTemplate
+{
+    public static void Reserve<T>(this List<T> list, int size)
+    {
+        var count = list.Count;
+
+        if (size < count)
+        {
+            list.RemoveRange(size, count - size);
+        }
+        else if (size > count)
+        {
+            if (size > list.Capacity)
+            {
+                list.Capacity = size;
+            }
+
+            list.AddRange(new T[size - count]);
+        }
+    }
+    public static void Resize<T>(this List<T> list, int size, T element )
+    {
+        int count = list.Count;
+
+        if (size < count)
+        {
+            list.RemoveRange(size, count - size);
+        }
+        else if (size > count)
+        {
+            if (size > list.Capacity)   // Optimization
+                list.Capacity = size;
+
+            list.AddRange(Enumerable.Repeat(element, size - count));
+        }
+    }
+}
+
+/*
+Resize는 최종버전 X
+param3 - element의 default 설정을 하지 못해서 list.Resize(int size, new Obj()) 형태로 사용해야함
+default 설정을 못한 이유는 해당 키워드가 참조형 일때만 할당해주고 참조형이 아닐 경우에는 
+기본 값인 Null로 세팅 되기 때문에 Reserve와 같은 동작을함
+But
+성능적인 측면에서 Reserve가 훨씬 좋음
+*/

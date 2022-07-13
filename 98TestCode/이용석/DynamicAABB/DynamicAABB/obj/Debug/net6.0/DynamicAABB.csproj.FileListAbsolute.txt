@@ -1,0 +1,15 @@
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\bin\Debug\net6.0\DynamicAABB.exe
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\bin\Debug\net6.0\DynamicAABB.deps.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\bin\Debug\net6.0\DynamicAABB.runtimeconfig.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\bin\Debug\net6.0\DynamicAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\bin\Debug\net6.0\DynamicAABB.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.csproj.AssemblyReference.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.AssemblyInfoInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.AssemblyInfo.cs
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\refint\DynamicAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\DynamicAABB.genruntimeconfig.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\DynamicAABB\DynamicAABB\obj\Debug\net6.0\ref\DynamicAABB.dll
