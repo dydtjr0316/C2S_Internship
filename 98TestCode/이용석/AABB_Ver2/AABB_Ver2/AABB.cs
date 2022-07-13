@@ -1,4 +1,6 @@
-﻿namespace AABB_Ver2;
+﻿using System.Diagnostics;
+using System.Numerics;
+namespace AABB_Ver2;
 using System;
 
 /*
@@ -48,6 +50,16 @@ public class AABB
         _sufaceArea = surFaceArea;
     }
 
+    public float GetCenterByIdx(int idx)
+    {
+        // idx 접근 할거면 예외 처리 필요할듯 모든 byidx 함수에
+        return _center[idx];
+    }
+
+    public List<float> GetCenter()
+    {
+        return _center;
+    }
     public void SetCenter(List<float> center)
     {
         _center = center;
@@ -65,12 +77,12 @@ public class AABB
         _lowerBound = lowerBound;
         _upperBound = upperBound;
 
-        if (_lowerBound.Count() != _upperBound.Count())
+        if (_lowerBound.Count != _upperBound.Count)
         {
             // err 처리 할 것
         }
 
-        for (int i = 0; i < lowerBound.Count(); i++)
+        for (int i = 0; i < lowerBound.Count; i++)
         {
             if (lowerBound[i] > upperBound[i])
             {
@@ -91,7 +103,7 @@ public class AABB
             // "Area" of current side.
             float product = 1.0f;
 
-            for ( int d2 = 0; d2 < _lowerBound.Count(); d2++)
+            for ( int d2 = 0; d2 < _lowerBound.Count; d2++)
             {
                 if (d1 == d2)
                     continue;
@@ -109,7 +121,7 @@ public class AABB
 
     public void Merge(in AABB aabb1, in AABB aabb2)
     {
-        for (int i = 0; i < _lowerBound.Count(); i++)
+        for (int i = 0; i < _lowerBound.Count; i++)
         {
             _lowerBound[i] = Math.Min(aabb1._lowerBound[i], aabb2._lowerBound[i]);
             _upperBound[i] = Math.Max(aabb1._upperBound[i], aabb2._upperBound[i]);
@@ -120,7 +132,7 @@ public class AABB
 
     public bool Contains(in AABB aabb)
     {
-        for (int i = 0; i < _lowerBound.Count(); i++)
+        for (int i = 0; i < _lowerBound.Count; i++)
         {
             if (aabb._lowerBound[i] < _lowerBound[i]) return false;
             if (aabb._upperBound[i] < _upperBound[i]) return false;
@@ -134,7 +146,7 @@ public class AABB
         bool rv = true;
         if (touchIsOverlap)
         {
-            for (int i = 0; i < _lowerBound.Count(); ++i)
+            for (int i = 0; i < _lowerBound.Count; ++i)
             {
                 if (aabb._upperBound[i] < _lowerBound[i] || aabb._lowerBound[i] > _upperBound[i])
                 {
@@ -145,7 +157,7 @@ public class AABB
         }
         else
         {
-            for (int i = 0; i < _lowerBound.Count(); ++i)
+            for (int i = 0; i < _lowerBound.Count; ++i)
             {
                 if (aabb._upperBound[i] <= _lowerBound[i] || aabb._lowerBound[i] >= _upperBound[i])
                 {
@@ -160,16 +172,15 @@ public class AABB
 
     public List<float> ComputeCenter()
     {
-        List<float> pos = new List<float>(_lowerBound.Count());
+        List<float> pos = new List<float>(_lowerBound.Count);
 
-        for (int i = 0; i < pos.Count(); i++)
+        for (int i = 0; i < pos.Count; i++)
         {
             pos[i] = 0.5f * (_lowerBound[i] + _upperBound[i]);
         }
         
         return pos;
     }
-
 
     #region Getter/Setter
 
@@ -221,10 +232,20 @@ public class Node
     {
         _parentIdx = parentIdx;
     }
-    
+
+    public int GetLeftIdx()
+    {
+        return _leftIdx;
+        
+    }
     public void SetLeftIdx(in int leftIdx)
     {
         _leftIdx = leftIdx;
+    }
+
+    public int GetRightIdx()
+    {
+        return _rightIdx;
     }
     public void SetRightIdx(in int rightIdx)
     {
@@ -236,6 +257,15 @@ public class Node
         return _aabb;
     }
 
+    public void SetAABB(AABB aabb)
+    {
+        _aabb = aabb;
+    }
+
+    public int GetParticleIdx()
+    {
+        return _particleIdx;
+    }
     public void SetParticleIdx(int particleIdx)
     {
         _particleIdx = particleIdx;
@@ -245,7 +275,7 @@ public class Node
     
     
 
-    bool isLeaf()
+    public bool IsLeaf()
     {
         return _leftIdx == AABB.NULL_NODE;
     }
@@ -296,6 +326,15 @@ public class Tree
     private bool _touchIsOverlap;
     #endregion
 
+    #region Getter/Setter
+
+    public int GetnParticles()
+    {
+        return _particleMap.Count;
+    }
+
+    #endregion
+
     #region Func
 
     public Tree(int dimension, float skinThickness, int nParticles, bool touchIsOverlap)
@@ -342,13 +381,14 @@ public class Tree
         _touchIsOverlap = touchIsOverlap;
         if (dimension < 2)
         {
-            // err처리
-            // 2차원 이하로 나올 수 없음
+            PrintError(ErrCode.DIMENSION_LOWER_2, GetErrorData());
+
         }
 
-        if ((_periodicity.Count() != _dimension) || _boxSize.Count() != _dimension)
+        if ((_periodicity.Count != _dimension) || _boxSize.Count != _dimension)
         {
-            //err
+            PrintError(ErrCode.DIMENSION_MISSMATCH, GetErrorData());
+
         }
         _root = AABB.NULL_NODE;
         _nodeCount = 0;
@@ -421,30 +461,14 @@ public class Tree
     {
         if (_particleMap.ContainsKey(particle))
         {
-            //err 
-            // 이미 map에 해당 id가 존재 하는 경우
-            // 현재는 particle 이지만 player로 수정될 부분임
+            PrintError(ErrCode.PARTICLE_ALREADY_EXIST, GetErrorData());
+
         }
 
-        if (position.Count() != _dimension)
+        if (position.Count != _dimension)
         {
-            // 차원에 맞는 pos 값이 넘어왔는가에 대한 체크
-            // try
-            // {
-            //     if (position.Count() != _dimension)
-            //     {
-            //         
-            //     }
-            // }
-            // catch (Exception e)
-            // {
-            //     Console.WriteLine(e);
-            // }
-            // finally
-            // {
-            //     //
-            // }
-            // 에러처리 예시 사용할 경우 전부 수정 // 용석
+            PrintError(ErrCode.DIMENSION_MISSMATCH, GetErrorData());
+
         }
 
         int node = AllocateNode();
@@ -469,7 +493,7 @@ public class Tree
         
         _nodes[node].SetHeightZero();
         
-        // 추가 구현 해야하는 부분임
+        // 추가 구현 해야하는 부분임 // 구현 후 주석 해제
         //InsertLeaf(node)
 
         // 파티클 맵에 id와 저장된 노드 저장
@@ -481,7 +505,300 @@ public class Tree
     }
     
     // 0713 12:52 insertParticle 오버로딩 함수 부터 구현 시작
-    
+    public void InsertParticle(int particle, ref List<float> lowerBound, ref List<float> upperBound)
+    {
+        if (_particleMap.ContainsKey(particle))
+        {
+            //err 
+            // 이미 map에 해당 id가 존재 하는 경우
+            // 현재는 particle 이지만 player로 수정될 부분임
+            PrintError(ErrCode.PARTICLE_ALREADY_EXIST, GetErrorData());
+        }
 
+        if (lowerBound.Count != _dimension || upperBound.Count != _dimension)
+        {
+            PrintError(ErrCode.DIMENSION_MISSMATCH, GetErrorData());
+        }
+
+        int node = AllocateNode();
+        
+        List<float> size = new List<float>();
+        
+        for (int i = 0; i < _dimension; ++i)
+        {
+            // 함수화 하기
+            _nodes[node].GetAABB().SetLowerBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) - _skinThickness*size[i]);
+            _nodes[node].GetAABB().SetUpperBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) + _skinThickness*size[i]);
+        }
+
+        _nodes[node].GetAABB().SetSurfaceArea(_nodes[node].GetAABB().ComputeSurfaceArea());
+        _nodes[node].GetAABB().SetCenter(_nodes[node].GetAABB().ComputeCenter());
+        
+        _nodes[node].SetHeightZero();
+        
+        // 추가 구현 해야하는 부분임
+        //InsertLeaf(node)
+
+        // 파티클 맵에 id와 저장된 노드 저장
+        _particleMap.Add(particle, node);
+
+        // particle(player) id 삽입
+        _nodes[node].SetParticleIdx(particle);
+    }
+
+    public void RemoveParticle(int particleIdx)
+    {
+        int node = 0;
+        if(!_particleMap.TryGetValue(particleIdx,out node))
+        {
+            PrintError(ErrCode.NOT_EXISTKEY_MAP, GetErrorData());
+        }
+
+        _particleMap.Remove(particleIdx);
+        
+        // 메서드 구현 후 주석 해제
+        //RemoveLeaf(node);
+        //FreeNode(node);
+    }
+
+    public void RemoveAllParticle()
+    {
+        foreach (var obj in _particleMap)
+        {
+            int node = obj.Value;
+            // 메서드 구현 후 주석 해제
+            //RemoveLeaf(node);
+            //FreeNode(node);
+        }
+        _particleMap.Clear();
+    }
+
+    public bool UpdateParticle(int particleIdx, ref List<float> lowerBound, List<float> upperBound, bool alwaysReinsert)
+    {
+        if (lowerBound.Count != _dimension || upperBound.Count != _dimension)
+        {
+            PrintError(ErrCode.DIMENSION_MISSMATCH, GetErrorData());
+        }
+
+        int node;
+        if(!_particleMap.TryGetValue(particleIdx,out node))
+        {
+            PrintError(ErrCode.NOT_EXISTKEY_MAP, GetErrorData());
+        }
+
+        List<float> size = new List<float>();
+        for (int i = 0; i < _dimension; ++i)
+        {
+            if (lowerBound[i] > upperBound[i])
+            {
+                PrintError(ErrCode.LOWERBOUND_GREATER, GetErrorData());
+            }
+            size.Add(upperBound[i] - lowerBound[i]);
+        }
+
+        AABB aabb = new AABB(lowerBound, upperBound);
+
+        if (!alwaysReinsert && _nodes[node].GetAABB().Contains(aabb))
+        {
+            return false;
+        }
+        // 메서드 구현 후 주석 제거
+        // removeLeaf(node);
+
+        for (int i = 0; i < _dimension; ++i)
+        {
+            aabb.SetLowerBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) - _skinThickness*size[i]);
+            aabb.SetUpperBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) + _skinThickness*size[i]);
+        }
+
+        _nodes[node].SetAABB(aabb);
+        _nodes[node].GetAABB().SetSurfaceArea(_nodes[node].GetAABB().ComputeSurfaceArea());
+        _nodes[node].GetAABB().SetCenter(_nodes[node].GetAABB().ComputeCenter());
+        
+        //InsertLeaf(node);
+
+        return true;
+    }
+
+    public List<int> Query(int particle)
+    {
+        int node;
+        if (!_particleMap.TryGetValue(particle, out node))
+        {
+            PrintError(ErrCode.NOT_EXISTKEY_MAP, GetErrorData());
+        }
+
+        return Query(particle, _nodes[node].GetAABB());
+    }
+
+    public List<int> Query(int particle, in AABB aabb)
+    {
+        // 현재 코드 매우 더러움 정리 필요
+        // for if문 최적화 할 수 있는 만큼 해보기 // 용석
+        
+        List<int> stack = new List<int>();
+        //List<int> stack = new List<int>(10); 이런식으로 초기화 사이즈 세팅 가능함
+        stack.Add(_root);
+        
+        List<int> particles = new List<int>();
+
+        while (stack.Count>0)
+        {
+            int node = stack[stack.Count - 1];
+            stack.RemoveAt(stack.Count - 1);
+
+            AABB nodeAABB = _nodes[node].GetAABB();
+            if (node == AABB.NULL_NODE)
+            {
+                continue;
+            }
+
+            if (_isPeriodic)
+            {
+                List<float> separation = new List<float>(_dimension);
+                List<float> shift = new List<float>(_dimension);
+
+                for (int i = 0; i < _dimension; ++i)
+                {
+                    separation.Add(nodeAABB.GetCenterByIdx(i) - aabb.GetCenterByIdx(i));
+                }
+
+                //매개변수 ref 로 사용해야하는 부분 전부 수정 들어가야함 // 용석
+                if (MinImage(ref separation, ref shift))
+                {
+                    for (int i = 0; i < _dimension; ++i)
+                    {
+                        nodeAABB.SetLowerBound(i, nodeAABB.GetLowerBoundByIdx(i) + shift[i]);
+                        nodeAABB.SetUpperBound(i, nodeAABB.GetUppderBoundByIdx(i) + shift[i]);
+                    }
+                }
+            }
+
+            if (aabb.Overlaps(nodeAABB, _touchIsOverlap))
+            {
+                if (_nodes[node].IsLeaf())
+                {
+                    if (_nodes[node].GetParticleIdx() != particle)
+                    {
+                        particles.Add(_nodes[node].GetParticleIdx());
+                    }
+                }
+                else
+                {
+                    stack.Add(_nodes[node].GetLeftIdx());
+                    stack.Add(_nodes[node].GetRightIdx());
+                }
+            }
+        }
+        return particles;
+    }
+
+    public bool MinImage(ref List<float> separation, ref List<float> shift)
+    {
+        bool isShifted = false;
+        for (int i = 0; i < _dimension; ++i)
+        {
+            if (separation[i] < _negMinImage[i])
+            {
+                // bool과 float을 곱하는 이짓거리는 왜하는 걸까...?
+                // 공부해야함 // 용석
+                separation[i] += Convert.ToInt32(_periodicity[i])  * _boxSize[i];
+                shift[i] = Convert.ToInt32(_periodicity[i]) * _boxSize[i];
+                isShifted = true;
+            }
+            else
+            {
+                if (separation[i] >= _posMinImage[i])
+                {
+                    separation[i] -= Convert.ToInt32(_periodicity[i])  * _boxSize[i];
+                    shift[i] = -Convert.ToInt32(_periodicity[i]) * _boxSize[i];
+                    isShifted = true;
+                }
+            }
+        }
+        return isShifted;
+    }
+
+    public List<int> Query(in AABB aabb)
+    {
+        if (_particleMap.Count == 0)
+        {
+            return new List<int>();
+        }
+        // 이렇게 null_node 값을 넣어줄거면 뭐하러 만들어 놓은 함수인가????
+        return Query(AABB.NULL_NODE, aabb/*std::numeric_limits<unsigned int>::max(), aabb*/);
+    }
+
+    public AABB getAABBByParticleIdx(int particleIdx)
+    {
+        return _nodes[_particleMap[particleIdx]].GetAABB();
+    }
+
+    public void InsertLeaf(int leaf)
+    {
+        if (_root == AABB.NULL_NODE)
+        {
+            _root = leaf;
+            _nodes[_root].SetParentIdx(AABB.NULL_NODE);
+            return;
+        }
+
+        AABB leafAABB = _nodes[leaf].GetAABB();
+
+        // root 부터 
+        int idx = _root;
+
+        while (!_nodes[idx].IsLeaf())
+        {
+            // 구현 시작점
+        }
+    }
+
+    #endregion
+
+    #region ErrorThrow
+    public StackFrame GetErrorData()
+    { 
+        StackTrace _st = new StackTrace(new StackFrame());
+        return _st.GetFrame(0);
+    }
+
+    public void PrintError(ErrCode t, StackFrame sf)
+    {
+        string basicString = "";
+        basicString += ("FileName : "+sf.GetFileName()+"\n");
+        basicString += ("MethodName : "+sf.GetMethod().Name+"\n");
+        basicString += ("LineNumber : "+sf.GetFileLineNumber()+"\n");
+        basicString += ("ColumnNumber : "+sf.GetFileColumnNumber()+"\n");
+        Console.Write("---------------------------------------------------");
+        switch (t)
+        {
+            case ErrCode.PARTICLE_ALREADY_EXIST:
+                Console.Write("[Error] : PARTICLE_ALREADY_EXIST\n"+basicString);
+                break;
+            case ErrCode.DIMENSION_MISSMATCH:
+                Console.Write("[Error] : DIMENSION_MISSMATCH\n"+basicString);
+                break;
+            case ErrCode.LOWERBOUND_GREATER:
+                Console.Write("[Error] : LOWERBOUND_GREATER\n"+basicString);
+                break;
+            case ErrCode.DIMENSION_LOWER_2:
+                Console.Write("[Error] : DIMENSION_LOWER_2\n"+basicString);
+                break;
+            case ErrCode.NOT_EXISTKEY_MAP:
+                Console.Write("[Error] : NOT_EXISTKEY_MAP\n"+basicString);
+                break;
+        }   
+        Console.Write("---------------------------------------------------");
+    }
+    public enum ErrCode
+    {
+        PARTICLE_ALREADY_EXIST = 0,
+        DIMENSION_MISSMATCH,
+        LOWERBOUND_GREATER,
+        DIMENSION_LOWER_2,
+        NOT_EXISTKEY_MAP,
+        
+    }
     #endregion
 }
