@@ -215,6 +215,11 @@ public class Node
 
     #endregion
 
+    public Node()
+    {
+        
+    }
+
     #region Getter/Setter
 
     public void SetNextIdx(in int nextIdx)
@@ -305,7 +310,7 @@ public class Tree
     #region  변수
     private int _root;
     // tree
-    private List<Node> _nodes;
+    private List<Node> _nodes = new List<Node>();
     
     // 트리의 현재 노드 갯수
     private int _nodeCount;
@@ -390,7 +395,7 @@ public class Tree
     }
 
     public Tree(int dimension, float skinThickness, ref List<bool> periodicity, ref List<float> boxSize, int nParticles,
-        bool touchIsOverlap)
+        bool touchIsOverlap = true)
     {
         _dimension = dimension;
         _periodicity = periodicity;
@@ -412,6 +417,12 @@ public class Tree
         _nodeCount = 0;
         _nodeCapacity = nParticles;
         
+        // 두가지 방법 중 어떤 방법이 더 효율적인지 판단
+        _nodes.Resize(_nodeCapacity, new Node());
+        _nodes.Reserve(_nodeCapacity+10);
+
+        //_nodes.Capacity = _nodeCapacity;
+
         for (int i = 0; i < _nodeCapacity - 1; ++i)
         {
             _nodes[i].SetNextIdx(i + 1);
