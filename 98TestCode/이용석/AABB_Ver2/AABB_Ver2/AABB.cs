@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Numerics;
 namespace AABB_Ver2;
 using System;
@@ -68,8 +69,14 @@ public class AABB
     #endregion
     public  static int NULL_NODE = 0xffffff;
 
+    public AABB()
+    {
+        
+    }
+    
     public AABB(int dimension)
     {
+        
     }
 
     public AABB(in List<float> lowerBound, in List<float> upperBound)
@@ -196,6 +203,7 @@ public class AABB
 public class Node
 {
     #region 변수
+
     private AABB _aabb;
     private int _parentIdx;
 
@@ -204,6 +212,7 @@ public class Node
     private int _rightIdx;
     private int _height;
     private int _particleIdx;
+
     #endregion
 
     #region Getter/Setter
@@ -218,6 +227,11 @@ public class Node
         return _nextIdx;
     }
 
+    public int GetHeight()
+    {
+        return _height;
+    }
+
     public void SetHeight(in int height)
     {
         _height = height;
@@ -228,6 +242,10 @@ public class Node
         _height = 0;
     }
 
+    public int GetParentIdx()
+    {
+        return _parentIdx;
+    }
     public void SetParentIdx(in int parentIdx)
     {
         _parentIdx = parentIdx;
@@ -746,24 +764,307 @@ public class Tree
         AABB leafAABB = _nodes[leaf].GetAABB();
 
         // root 부터 
-        int idx = _root;
+        var idx = _root;
 
         while (!_nodes[idx].IsLeaf())
         {
-            // 구현 시작점
+            var left = _nodes[idx].GetLeftIdx();
+            var right = _nodes[idx].GetRightIdx();
+
+            var surfaceArea = _nodes[idx].GetAABB().GetSurfaceArea();
+
+            AABB combinedAABB = new AABB();
+            combinedAABB.Merge(_nodes[idx].GetAABB(), leafAABB);
+            var combinedSurfaceArea = combinedAABB.GetSurfaceArea();
+            
+            var cost = 2.0f * combinedSurfaceArea;
+
+            var inheritanceCost = 2.0f * (combinedSurfaceArea - surfaceArea);
+
+            float costLeft;
+            if (_nodes[leaf].IsLeaf())
+            {
+                AABB aabb = new AABB();
+                aabb.Merge(leafAABB, _nodes[left].GetAABB());
+                costLeft = aabb.GetSurfaceArea() + inheritanceCost;
+            }
+            else
+            {
+                AABB aabb = new AABB();
+                aabb.Merge(leafAABB, _nodes[left].GetAABB());
+                var oldArea = _nodes[left].GetAABB().GetSurfaceArea();
+                var newArea = aabb.GetSurfaceArea();
+                costLeft = newArea - oldArea + inheritanceCost;
+            }
+            
+            float costRight;
+            if (_nodes[leaf].IsLeaf())
+            {
+                AABB aabb = new AABB();
+                aabb.Merge(leafAABB, _nodes[right].GetAABB());
+                costRight = aabb.GetSurfaceArea() + inheritanceCost;
+            }
+            else
+            {
+                AABB aabb = new AABB();
+                aabb.Merge(leafAABB, _nodes[right].GetAABB());
+                var oldArea = _nodes[right].GetAABB().GetSurfaceArea();
+                var newArea = aabb.GetSurfaceArea();
+                costRight = newArea - oldArea + inheritanceCost;
+            }
+
+            if (cost < costLeft && cost < costRight)
+            {
+                break;
+            }
+
+            if (costLeft < costRight)
+            {
+                idx = left;
+            }
+            else
+            {
+                idx = right;
+            }
+        }
+
+        var sibling = idx;
+        var oldParent = _nodes[sibling].GetParticleIdx();
+        var newParent = AllocateNode();
+
+        _nodes[newParent].SetParentIdx(oldParent);
+        _nodes[newParent].GetAABB().Merge(leafAABB, _nodes[sibling].GetAABB());
+        _nodes[newParent].SetHeight(_nodes[sibling].GetHeight() + 1);
+
+        if (oldParent != AABB.NULL_NODE)
+        {
+            if (_nodes[oldParent].GetLeftIdx() == sibling)
+            {
+                _nodes[oldParent].SetLeftIdx(newParent);
+            }
+            else
+            {
+                _nodes[oldParent].SetRightIdx(newParent);
+            }
+            
+            _nodes[newParent].SetLeftIdx(sibling);
+            _nodes[newParent].SetRightIdx(leaf);
+            _nodes[sibling].SetParentIdx(newParent);
+            _nodes[leaf].SetParentIdx(newParent);
+        }
+        else
+        {
+            _nodes[newParent].SetLeftIdx(sibling);
+            _nodes[newParent].SetRightIdx(leaf);
+            _nodes[sibling].SetParentIdx(newParent);
+            _nodes[leaf].SetParentIdx(newParent);
+            _root = newParent;
+        }
+
+        idx = _nodes[leaf].GetParentIdx();
+
+        while (idx != AABB.NULL_NODE)
+        {
+            idx = Balance(idx);
+            var left = _nodes[idx].GetLeftIdx();
+            var right = _nodes[idx].GetRightIdx();
+
+            _nodes[idx].SetHeight(1+Math.Max(_nodes[left].GetHeight(), _nodes[right].GetHeight()));
+            _nodes[idx].GetAABB().Merge(_nodes[left].GetAABB(), _nodes[right].GetAABB());
+
+            idx = _nodes[idx].GetParentIdx();
         }
     }
+
+    public void RemoveLeaf(int leaf)
+    {
+        if (leaf == _root)
+        {
+            _root = AABB.NULL_NODE;
+            return;
+        }
+
+
+        var parent = _nodes[leaf].GetParentIdx();
+        var grandParent = _nodes[parent].GetParentIdx();
+        int sibling;
+
+        if (_nodes[parent].GetLeftIdx() == leaf)
+        {
+            sibling = _nodes[parent].GetRightIdx();
+        }
+        else
+        {
+            sibling = _nodes[parent].GetLeftIdx();
+        }
+
+        if (grandParent != AABB.NULL_NODE)
+        {
+            if (_nodes[grandParent].GetLeftIdx() == parent)
+            {
+                _nodes[grandParent].SetLeftIdx(sibling);
+            }
+            else
+            {
+                _nodes[grandParent].SetRightIdx(sibling);
+            }
+
+            _nodes[sibling].SetParentIdx(grandParent);
+            FreeNode(parent);
+            var idx = grandParent;
+
+            while (idx != AABB.NULL_NODE)
+            {
+                idx = Balance(idx);
+
+                var left = _nodes[idx].GetLeftIdx();
+                var right = _nodes[idx].GetRightIdx();
+
+                _nodes[idx].GetAABB().Merge(_nodes[left].GetAABB(), _nodes[right].GetAABB());
+                _nodes[idx].SetHeight(1 + Math.Max(_nodes[left].GetHeight(), _nodes[right].GetHeight()));
+
+                idx = _nodes[idx].GetParentIdx();
+
+            }
+        }
+        else
+        {
+            _root = sibling;
+            _nodes[sibling].SetParentIdx(AABB.NULL_NODE);
+            FreeNode(parent);
+        }
+    }
+
+    private int Balance(int node)
+    {
+        if (_nodes[node].IsLeaf() || _nodes[node].GetHeight() < 2)
+        {
+            return node;
+        }
+
+        var left = _nodes[node].GetLeftIdx();
+        var right = _nodes[node].GetRightIdx();
+
+        var currentBalance = _nodes[right].GetHeight() - _nodes[left].GetHeight();
+
+        // rotate logic
+        if (currentBalance > 1)
+        {
+            var rightLeft = _nodes[right].GetLeftIdx();
+            var rightRight = _nodes[right].GetRightIdx();
+            
+            _nodes[right].SetLeftIdx(node);
+            _nodes[right].SetParentIdx(_nodes[node].GetParentIdx());
+            _nodes[node].SetParentIdx(right);
+
+            if (_nodes[right].GetParentIdx() != AABB.NULL_NODE)
+            {
+                if (_nodes[_nodes[right].GetParentIdx()].GetLeftIdx() == node)
+                {
+                    _nodes[_nodes[right].GetParentIdx()].SetLeftIdx(right);
+                }
+                else
+                {
+                    _nodes[_nodes[right].GetParentIdx()].SetRightIdx(right);
+                }
+            }
+            else
+            {
+                _root = right;
+            }
+
+            if (_nodes[rightLeft].GetHeight() > _nodes[rightRight].GetHeight())
+            {
+                _nodes[right].SetRightIdx(rightLeft);
+                _nodes[node].SetRightIdx(rightRight);
+                _nodes[rightRight].SetParentIdx(node);
+                _nodes[node].GetAABB().Merge(_nodes[left].GetAABB(), _nodes[rightRight].GetAABB());
+                _nodes[right].GetAABB().Merge(_nodes[node].GetAABB(), _nodes[rightLeft].GetAABB());
+                
+                _nodes[node].SetHeight(1+ Math.Max(_nodes[left].GetHeight(), _nodes[rightRight].GetHeight()));
+                _nodes[right].SetHeight(1+ Math.Max(_nodes[node].GetHeight(), _nodes[rightLeft].GetHeight()));
+            }
+            else
+            {
+                _nodes[right].SetRightIdx(rightRight);
+                _nodes[node].SetRightIdx(rightLeft);
+                _nodes[rightLeft].SetParentIdx(node);
+                _nodes[node].GetAABB().Merge(_nodes[left].GetAABB(), _nodes[rightLeft].GetAABB());
+                _nodes[right].GetAABB().Merge(_nodes[node].GetAABB(), _nodes[rightRight].GetAABB());
+                
+                _nodes[node].SetHeight(1+ Math.Max(_nodes[left].GetHeight(), _nodes[rightLeft].GetHeight()));
+                _nodes[right].SetHeight(1+ Math.Max(_nodes[node].GetHeight(), _nodes[rightRight].GetHeight()));
+            }
+
+            return right;
+        }
+        else if (currentBalance < -1)
+        {
+            var leftLeft = _nodes[left].GetLeftIdx();
+            var leftRight = _nodes[left].GetRightIdx();
+            
+            _nodes[left].SetLeftIdx(node);
+            _nodes[left].SetParentIdx(_nodes[node].GetParentIdx());
+            _nodes[left].SetParentIdx(left);
+
+            if (_nodes[left].GetParentIdx() != AABB.NULL_NODE)
+            {
+                if (_nodes[_nodes[left].GetParentIdx()].GetLeftIdx() == node)
+                {
+                    _nodes[_nodes[left].GetParentIdx()].SetRightIdx(left);
+                }
+                else
+                {
+                    _nodes[_nodes[left].GetParentIdx()].SetRightIdx(left);
+                }
+            }
+            else
+            {
+                _root = left;
+            }
+
+            if (_nodes[leftLeft].GetHeight() > _nodes[leftRight].GetHeight())
+            {
+                _nodes[left].SetRightIdx(leftLeft);
+                _nodes[node].SetLeftIdx(leftRight);
+                _nodes[leftRight].SetParentIdx(node);
+                _nodes[node].GetAABB().Merge(_nodes[right].GetAABB(), _nodes[leftRight].GetAABB());
+                _nodes[left].GetAABB().Merge(_nodes[node].GetAABB(), _nodes[leftLeft].GetAABB());
+                
+                _nodes[node].SetHeight(1+ Math.Max(_nodes[right].GetHeight(), _nodes[leftRight].GetHeight()));
+                _nodes[left].SetHeight(1+ Math.Max(_nodes[node].GetHeight(), _nodes[leftLeft].GetHeight()));
+            }
+            else
+            {
+                _nodes[left].SetRightIdx(leftRight);
+                _nodes[node].SetLeftIdx(leftLeft);
+                _nodes[leftLeft].SetParentIdx(node);
+                _nodes[node].GetAABB().Merge(_nodes[right].GetAABB(), _nodes[leftLeft].GetAABB());
+                _nodes[left].GetAABB().Merge(_nodes[node].GetAABB(), _nodes[leftRight].GetAABB());
+                
+                _nodes[node].SetHeight(1+ Math.Max(_nodes[right].GetHeight(), _nodes[leftLeft].GetHeight()));
+                _nodes[left].SetHeight(1+ Math.Max(_nodes[node].GetHeight(), _nodes[leftRight].GetHeight()));
+            }
+
+            return left;
+        }
+        return node;
+    }
+
+    /*
+     * ComputeHeight 코드 구현 미루기
+     */
 
     #endregion
 
     #region ErrorThrow
-    public StackFrame GetErrorData()
+    private StackFrame GetErrorData()
     { 
         StackTrace _st = new StackTrace(new StackFrame());
         return _st.GetFrame(0);
     }
 
-    public void PrintError(ErrCode t, StackFrame sf)
+    private void PrintError(ErrCode t, StackFrame sf)
     {
         string basicString = "";
         basicString += ("FileName : "+sf.GetFileName()+"\n");
@@ -789,9 +1090,9 @@ public class Tree
                 Console.Write("[Error] : NOT_EXISTKEY_MAP\n"+basicString);
                 break;
         }   
-        Console.Write("---------------------------------------------------");
+        Console.Write("---------------------------------------------------\n");
     }
-    public enum ErrCode
+    private enum ErrCode
     {
         PARTICLE_ALREADY_EXIST = 0,
         DIMENSION_MISSMATCH,
