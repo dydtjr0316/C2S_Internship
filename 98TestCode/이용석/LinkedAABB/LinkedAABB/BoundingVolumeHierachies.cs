@@ -2,57 +2,56 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public struct Vector3
+public struct Vector2
 {
-    public float x, y, z;
+    public float x, y;
 
-    public Vector3(float x = 0, float y = 0, float z = 0)
+    public Vector2(float x = 0, float y = 0)
     {
         this.x = x;
         this.y = y;
-        this.z = z;
     }
 
     public float Magnitude
     {
-        get { return (float)Math.Sqrt(x * x + y * y + z * z); }
+        get { return (float)Math.Sqrt(x * x + y * y); }
     }
 
-    public static Vector3 operator +(Vector3 a, Vector3 b)
+    public static Vector2 operator +(Vector2 a, Vector2 b)
     {
-        return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
+        return new Vector2(a.x + b.x, a.y + b.y);
     }
 
-    public static Vector3 operator -(Vector3 a, Vector3 b)
+    public static Vector2 operator -(Vector2 a, Vector2 b)
     {
         return a + (-b);
     }
 
-    public static Vector3 operator -(Vector3 a)
+    public static Vector2 operator -(Vector2 a)
     {
-        return new Vector3(-a.x, -a.y, -a.z);
+        return new Vector2(-a.x, -a.y);
     }
 
-    public static Vector3 Min(Vector3 a, Vector3 b)
+    public static Vector2 Min(Vector2 a, Vector2 b)
     {
-        return new Vector3(Math.Min(a.x, b.x), Math.Min(a.y, b.y), Math.Min(a.z, b.z));
+        return new Vector2(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
     }
 
-    public static Vector3 Max(Vector3 a, Vector3 b)
+    public static Vector2 Max(Vector2 a, Vector2 b)
     {
-        return new Vector3(Math.Max(a.x, b.x), Math.Max(a.y, b.y), Math.Max(a.z, b.z));
+        return new Vector2(Math.Max(a.x, b.x), Math.Max(a.y, b.y));
     }
 
     public override string ToString()
     {
-        return "( " + x + ", " + y + ", " + z + " )";
+        return "( " + x + ", " + y + " )";
     }
 }
 
 public class BoundingBox
     {
-        private Vector3 Min;
-        private Vector3 Max;
+        private Vector2 Min;
+        private Vector2 Max;
         private float SurfaceArea;
         private float Volume;
 
@@ -60,40 +59,39 @@ public class BoundingBox
         {
             return Volume;
         }
-        public BoundingBox(Vector3 min, Vector3 max)
+        public BoundingBox(Vector2 min, Vector2 max)
         {
             this.Min = min;
             this.Max = max;
-            Vector3 diff = Max - Min;
-            Volume = diff.x * diff.y * diff.z;
-            SurfaceArea = 2f * (diff.x * diff.y + diff.y * diff.z + diff.z * diff.x);
+            Vector2 diff = Max - Min;
+            Volume = diff.x * diff.y;
+            SurfaceArea = (diff.x * diff.y);
         }
 
-        public void Set(Vector3 min, Vector3 max)
+        public void Set(Vector2 min, Vector2 max)
         {
             Min = min;
             Max = max;
-            Vector3 diff = Max - Min;
-            Volume = diff.x * diff.y * diff.z;
-            SurfaceArea = 2f * (diff.x * diff.y + diff.y * diff.z + diff.z * diff.x);
+            Vector2 diff = Max - Min;
+            Volume = diff.x * diff.y;
+            SurfaceArea =  (diff.x * diff.y);
         }
 
         public static BoundingBox operator +(BoundingBox a, BoundingBox b)
         {
-            var mmin = Vector3.Min(a.Min, b.Min);
-            var mmax = Vector3.Max(a.Max, b.Max);
+            var mmin = Vector2.Min(a.Min, b.Min);
+            var mmax = Vector2.Max(a.Max, b.Max);
             var rst = new BoundingBox(mmin, mmax);
             return rst;
         }
 
         public bool Intersect(BoundingBox another)
         {
-            return !(this.Min.x > another.Max.x ||
+            return !(
+                this.Min.x > another.Max.x ||
                 this.Max.x < another.Min.x ||
                 this.Min.y > another.Max.y ||
-                this.Max.y < another.Min.y ||
-                this.Min.z > another.Max.z ||
-                this.Max.z < another.Min.z);
+                this.Max.y < another.Min.y);
         }
 
         public override string ToString()
@@ -280,7 +278,7 @@ public class Tree
                 node.SetParentNode(newNode);
 
                 var cur = newNode;
-                while (cur.ParentNodeNullCheck())
+                while (!cur.ParentNodeNullCheck())
                 {
                     cur.GetParentNode().SetBoundingBox(Merge(cur.GetParentNode().GetBoundingBox(), cur.GetBoundingBox()));
                     cur = cur.GetParentNode();

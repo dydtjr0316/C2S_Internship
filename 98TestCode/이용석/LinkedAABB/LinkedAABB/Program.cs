@@ -11,12 +11,12 @@ namespace test
     {
         static void Main(string[] args)
         {
-            Vector3[] list = new Vector3[] { 
-                new Vector3(1,1,1), new Vector3(2,2,2),
-                new Vector3(-2,-2,-2), new Vector3(-1,-1,-1),
-                new Vector3(0,2,-2), new Vector3(1,7,-1),
-                new Vector3(2,1,4), new Vector3(3,2,4),
-                new Vector3(7,2,-2), new Vector3(11,4,0),
+            Vector2[] list = new Vector2[] { 
+                new Vector2(1,1), new Vector2(2,2),
+                new Vector2(-2,-2), new Vector2(-1,-1),
+                new Vector2(0,2), new Vector2(1,7),
+                new Vector2(2,1), new Vector2(3,2),
+                new Vector2(7,2), new Vector2(11,4),
             };
 
             List<Node> listB = new List<Node>();
