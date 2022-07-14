@@ -1,0 +1,15 @@
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\bin\Debug\net6.0\ListFunc.exe
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\bin\Debug\net6.0\ListFunc.deps.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\bin\Debug\net6.0\ListFunc.runtimeconfig.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\bin\Debug\net6.0\ListFunc.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\bin\Debug\net6.0\ListFunc.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.csproj.AssemblyReference.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.AssemblyInfoInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.AssemblyInfo.cs
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\refint\ListFunc.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ListFunc.genruntimeconfig.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\99Common\ListFunc\ListFunc\obj\Debug\net6.0\ref\ListFunc.dll

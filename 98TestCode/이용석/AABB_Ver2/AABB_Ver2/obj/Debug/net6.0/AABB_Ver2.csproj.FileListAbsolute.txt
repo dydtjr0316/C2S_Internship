@@ -1,7 +1,7 @@
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.exe
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.dll
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.deps.json
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.runtimeconfig.json
-C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.dll
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\bin\Debug\net6.0\AABB_Ver2.pdb
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\obj\Debug\net6.0\AABB_Ver2.csproj.AssemblyReference.cache
 C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\AABB_Ver2\AABB_Ver2\obj\Debug\net6.0\AABB_Ver2.GeneratedMSBuildEditorConfig.editorconfig

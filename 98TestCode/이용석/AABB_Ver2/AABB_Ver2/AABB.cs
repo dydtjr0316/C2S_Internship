@@ -76,6 +76,8 @@ public class AABB
     
     public AABB(int dimension)
     {
+        _lowerBound = new List<float>(2) { 0.0f, 0.0f };
+        _upperBound = new List<float>(2) { 0.0f, 0.0f };
         
     }
 
@@ -128,13 +130,17 @@ public class AABB
 
     public void Merge(in AABB aabb1, in AABB aabb2)
     {
+        // 아래 두줄을 해줘야 하는 상황이 있을까?
+        _lowerBound = new List<float>(2) { 0.0f, 0.0f };
+        _upperBound = new List<float>(2) { 0.0f, 0.0f };
+        
         for (int i = 0; i < _lowerBound.Count; i++)
         {
             _lowerBound[i] = Math.Min(aabb1._lowerBound[i], aabb2._lowerBound[i]);
             _upperBound[i] = Math.Max(aabb1._upperBound[i], aabb2._upperBound[i]);
         }
         _sufaceArea = ComputeSurfaceArea();
-        // _center = computeCenter();
+        _center = ComputeCenter();
     }
 
     public bool Contains(in AABB aabb)
@@ -180,7 +186,10 @@ public class AABB
     public List<float> ComputeCenter()
     {
         List<float> pos = new List<float>(_lowerBound.Count);
-
+        pos.Capacity = _lowerBound.Capacity;
+        pos.Add(new float());
+        pos.Add(new float());
+        
         for (int i = 0; i < pos.Count; i++)
         {
             pos[i] = 0.5f * (_lowerBound[i] + _upperBound[i]);
@@ -196,6 +205,16 @@ public class AABB
         return _sufaceArea;
     }
 
+    public void SetDimension(in int dimension)
+    {
+        _lowerBound.Capacity = dimension;
+        _upperBound.Capacity = dimension;
+        _lowerBound.Add(0.0f);
+        _lowerBound.Add(0.0f);
+        _upperBound.Add(0.0f);
+        _upperBound.Add(0.0f);
+    }
+
     #endregion
     
 }
@@ -204,7 +223,7 @@ public class Node
 {
     #region 변수
 
-    private AABB _aabb;
+    private AABB _aabb = new AABB(2);
     private int _parentIdx;
 
     private int _nextIdx;
@@ -331,19 +350,19 @@ public class Tree
     private bool _isPeriodic;
     
     // 공부가 필요함 // 용석
-    private List<bool> _periodicity;
+    private List<bool> _periodicity = new List<bool>();
     
     // 공부가 필요함 // 용석
-    private List<float> _boxSize;
+    private List<float> _boxSize = new List<float>();
     
     // 공부가 필요함 // 용석
-    private List<float> _negMinImage;
+    private List<float> _negMinImage = new List<float>();
     
     // 공부가 필요함 // 용석
-    private List<float> _posMinImage;
+    private List<float> _posMinImage = new List<float>();
     
     // 객체 인덱스와 노드 인덱스 저장 정보같은데 확실히 모르겠음 // 용석
-    private Dictionary<int, int> _particleMap;
+    private Dictionary<int, int> _particleMap = new Dictionary<int, int>();
     
     // 중복 계산을 방지하기 위함인 것 같은데 다시 봐야함 // 용석
     private bool _touchIsOverlap;
@@ -358,6 +377,22 @@ public class Tree
 
     #endregion
 
+    #region TestFunc
+
+    public void printTree()
+    {
+        foreach (var obj in _nodes)
+        {
+            Console.Write("Height : "+obj.GetHeight()+"\n");
+            Console.Write("ParticleIdx : "+obj.GetParticleIdx()+"\n");
+            //obj.GetAABB().ComputeCenter();
+            Console.Write("ParticlePos : "+obj.GetAABB().ComputeCenter()[0]+" - "+obj.GetAABB().ComputeCenter()[1]+"\n"+"\n");
+            
+        }
+    }
+    
+
+    #endregion
     #region Func
 
     public Tree(int dimension, float skinThickness, int nParticles, bool touchIsOverlap)
@@ -372,17 +407,26 @@ public class Tree
             // err처리
             // 2차원 이하로 나올 수 없음
         }
-
-        for (int i = 0; i < _dimension; ++i)
+        _periodicity.Capacity = dimension;
+        //  _nodes.Resize(_nodeCapacity, new Node());
+        for (var i = 0;i<_periodicity.Capacity-1;++i)
         {
-            // 배열초기화 방법 찾아보고 수정 // 용석
-            _periodicity.Add(false);
+            _periodicity[i] = new bool();
         }
+
+        
 
         // 이부분 메서드화 해도 될듯? 자주사용되는데 // 용석
         _root = AABB.NULL_NODE;
         _nodeCount = 0;
         _nodeCapacity = nParticles;
+        _nodes.Capacity = _nodeCapacity;
+        //  _nodes.Resize(_nodeCapacity, new Node());
+        for (var i = 0;i<_nodes.Capacity;++i)
+        {
+            _nodes.Add(new Node());
+        }
+        
         for (int i = 0; i < _nodeCapacity - 1; ++i)
         {
             _nodes[i].SetNextIdx(i + 1);
@@ -418,8 +462,14 @@ public class Tree
         _nodeCapacity = nParticles;
         
         // 두가지 방법 중 어떤 방법이 더 효율적인지 판단
-        _nodes.Resize(_nodeCapacity, new Node());
-        _nodes.Reserve(_nodeCapacity+10);
+
+        // capacity setting과 자료형 초기화를 range repeat으로 구현하면 더 좋지 않을까?
+        _nodes.Capacity = _nodeCapacity;
+          //  _nodes.Resize(_nodeCapacity, new Node());
+          for (var i = 0;i<_nodes.Capacity;++i)
+          {
+              _nodes.Add(new Node());
+          }
 
         //_nodes.Capacity = _nodeCapacity;
 
@@ -434,6 +484,19 @@ public class Tree
         _freeList = 0;
 
         _isPeriodic = false;
+        
+        _posMinImage.Capacity = dimension;
+        _negMinImage.Capacity = dimension;
+        //  _nodes.Resize(_nodeCapacity, new Node());
+        for (var i = 0;i<_posMinImage.Capacity;++i)
+        {
+            _posMinImage.Add(new float());
+        }
+        for (var i = 0;i<_negMinImage.Capacity;++i)
+        {
+            _negMinImage.Add(new float());
+        }
+        
         for (int i = 0; i < _dimension; ++i)
         {
             _posMinImage[i] = 0.5f * _boxSize[i];
@@ -448,9 +511,17 @@ public class Tree
 
     public int AllocateNode()
     {
+        // Node가 다 찬경우
         if (_freeList == AABB.NULL_NODE)
         {
             _nodeCapacity *= 2;
+
+            _nodes.Capacity = _nodeCapacity;
+            //  _nodes.Resize(_nodeCapacity, new Node());
+            for (var i = 0;i<_nodes.Capacity-1;++i)
+            {
+                _nodes.Add(new Node());
+            }
 
             for (int i = _nodeCount; i < _nodeCapacity - 1; ++i)
             {
@@ -462,15 +533,14 @@ public class Tree
             _freeList = 0;
         }
 
-        // 실수했다 값바뀌는 경우엔 무조건 새로운 메모리 사용해야함
-        // 이전에 이런코드 있었던것 같은데 찾아보기
-        int node = _freeList;
+        // 초기화??
+        var node = _freeList;
         _freeList = _nodes[node].GetNextIdx();
         _nodes[node].SetParentIdx(AABB.NULL_NODE);
         _nodes[node].SetLeftIdx(AABB.NULL_NODE);
         _nodes[node].SetRightIdx(AABB.NULL_NODE);
         _nodes[node].SetHeight(0);
-        //_nodes[node].GetAABB().SetDimension;
+        _nodes[node].GetAABB().SetDimension(_dimension);
         // 주석 코드는 원래 있었으나 resize를 제거하며 삭제함
         // 혹시 resize의 필요성이 생긴다면 다시 작성
         _nodeCount++;
@@ -502,7 +572,8 @@ public class Tree
 
         int node = AllocateNode();
 
-        List<float> size = new List<float>();
+        List<float> size = new List<float>(_dimension);
+
         for (int i = 0; i < _dimension; ++i)
         {
             _nodes[node].GetAABB().SetLowerBound(i, position[i] - radius);
@@ -514,7 +585,7 @@ public class Tree
         {
             // 함수화 하기
             _nodes[node].GetAABB().SetLowerBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) - _skinThickness*size[i]);
-            _nodes[node].GetAABB().SetUpperBound(i,_nodes[node].GetAABB().GetLowerBoundByIdx(i) + _skinThickness*size[i]);
+            _nodes[node].GetAABB().SetUpperBound(i,_nodes[node].GetAABB().GetUppderBoundByIdx(i) + _skinThickness*size[i]);
         }
 
         _nodes[node].GetAABB().SetSurfaceArea(_nodes[node].GetAABB().ComputeSurfaceArea());
@@ -523,7 +594,7 @@ public class Tree
         _nodes[node].SetHeightZero();
         
         // 추가 구현 해야하는 부분임 // 구현 후 주석 해제
-        //InsertLeaf(node)
+        InsertLeaf(node);
 
         // 파티클 맵에 id와 저장된 노드 저장
         _particleMap.Add(particle, node);
@@ -793,7 +864,7 @@ public class Tree
             var inheritanceCost = 2.0f * (combinedSurfaceArea - surfaceArea);
 
             float costLeft;
-            if (_nodes[leaf].IsLeaf())
+            if (_nodes[left].IsLeaf())
             {
                 AABB aabb = new AABB();
                 aabb.Merge(leafAABB, _nodes[left].GetAABB());
@@ -809,7 +880,7 @@ public class Tree
             }
             
             float costRight;
-            if (_nodes[leaf].IsLeaf())
+            if (_nodes[right].IsLeaf())
             {
                 AABB aabb = new AABB();
                 aabb.Merge(leafAABB, _nodes[right].GetAABB());
@@ -840,7 +911,7 @@ public class Tree
         }
 
         var sibling = idx;
-        var oldParent = _nodes[sibling].GetParticleIdx();
+        var oldParent = _nodes[sibling].GetParentIdx();
         var newParent = AllocateNode();
 
         _nodes[newParent].SetParentIdx(oldParent);

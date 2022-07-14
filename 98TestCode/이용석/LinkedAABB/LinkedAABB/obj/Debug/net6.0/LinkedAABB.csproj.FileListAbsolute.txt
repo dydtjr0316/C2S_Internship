@@ -1,0 +1,15 @@
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\bin\Debug\net6.0\LinkedAABB.exe
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\bin\Debug\net6.0\LinkedAABB.deps.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\bin\Debug\net6.0\LinkedAABB.runtimeconfig.json
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\bin\Debug\net6.0\LinkedAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\bin\Debug\net6.0\LinkedAABB.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.csproj.AssemblyReference.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.AssemblyInfoInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.AssemblyInfo.cs
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\refint\LinkedAABB.dll
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.pdb
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\LinkedAABB.genruntimeconfig.cache
+C:\Users\user\Documents\GitHub\C2S_Internship\98TestCode\이용석\LinkedAABB\LinkedAABB\obj\Debug\net6.0\ref\LinkedAABB.dll

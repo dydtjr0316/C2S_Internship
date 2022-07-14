@@ -4,7 +4,7 @@ using AABB_Ver2;
 
 public static class ListTemplate
 {
-    public static void Reserve<T>(this List<T> list, int size)
+    public static void Resize<T>(this List<T> list, int size)
     {
         var count = list.Count;
 
@@ -21,29 +21,32 @@ public static class ListTemplate
 
             list.AddRange(new T[size - count]);
         }
-    }
-    public static void Resize<T>(this List<T> list, int size, T element )
-    {
-        int count = list.Count;
 
-        if (size < count)
-        {
-            list.RemoveRange(size, count - size);
-        }
-        else if (size > count)
-        {
-            if (size > list.Capacity)   // Optimization
-                list.Capacity = size;
-
-            list.AddRange(Enumerable.Repeat(element, size - count));
-        }
+        
     }
+    // public static void Resize<T>(this List<T> list, int size )
+    // {
+    //     int count = list.Count;
+    //
+    //     if (size < count)
+    //     {
+    //         list.RemoveRange(size, count - size);
+    //     }
+    //     else if (size > count)
+    //     {
+    //         if (size > list.Capacity)   // Optimization
+    //             list.Capacity = size;
+    //         
+    //         list.AddRange(Enumerable.Repeat(element, size - count));
+    //     }
+    // }
 }
 
 public class MainProgram
 {
     public static void Main(string[] args)
     {
+        Random rand = new Random();
         var nSweeps = 100000; // The number of Monte Carlo sweeps.
         var sampleInterval = 100; // The number of sweeps per sample.
         var nSmall = 1000; // The number of small particles.
@@ -78,9 +81,28 @@ public class MainProgram
 
         Tree tree = new Tree(2, 0.1f, ref periodicity, ref boxSize, 16);
 
-        List<float> pos = new List<float>(2) { 1.0f, 1.0f };
+        List<float> pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
 
 
-        tree.InsertParticle(0, ref pos, 2.0f);
+        // 고정 좌표로 테스트 한번 해보기
+        tree.InsertParticle(0, ref pos, (float)rand.NextDouble());
+        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        tree.InsertParticle(1, ref pos, (float)rand.NextDouble());
+        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        tree.InsertParticle(2, ref pos, (float)rand.NextDouble());
+        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        tree.InsertParticle(3, ref pos, (float)rand.NextDouble());
+        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+         tree.InsertParticle(4, ref pos, (float)rand.NextDouble());
+        // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        // tree.InsertParticle(5, ref pos, (float)rand.NextDouble());
+        // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        // tree.InsertParticle(6, ref pos, (float)rand.NextDouble());
+        // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        // tree.InsertParticle(7, ref pos, (float)rand.NextDouble());
+        // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        // tree.InsertParticle(8, ref pos, (float)rand.NextDouble());
+        // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        tree.printTree();
     }
 }
