@@ -155,7 +155,17 @@ public class MainProgram
         // tree.InsertParticle(8, ref pos, (float)rand.NextDouble());
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
 #endif // FIX_DATA_TEST_VER
+        tree.printTree();
         
+        Console.Write("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n\n");
+        int removeParticleID;
+#if FIX_DATA_TEST_VER
+        removeParticleID = 4;
+#else // !FIX_DATA_TEST_VER
+        //removeParticleID = ?;        
+#endif  // FIX_DATA_TEST_VER
+        
+        tree.RemoveParticle(removeParticleID);
         tree.printTree();
     }
 }

@@ -670,11 +670,14 @@ public class Tree
             PrintError(ErrCode.NOT_EXISTKEY_MAP, GetErrorData());
         }
 
+        
+        // 이부분 결국 RemoveLeaf가 완료 되지않고 map에서 제외하는 꼴이 되는거아닌가?
+        // err return 하게되면 particleIdx만 빠지고 노드는 제거안될수도있는데
         _particleMap.Remove(particleIdx);
         
         // 메서드 구현 후 주석 해제
-        //RemoveLeaf(node);
-        //FreeNode(node);
+        RemoveLeaf(node);
+        FreeNode(node);
     }
 
     public void RemoveAllParticle()
@@ -683,8 +686,8 @@ public class Tree
         {
             int node = obj.Value;
             // 메서드 구현 후 주석 해제
-            //RemoveLeaf(node);
-            //FreeNode(node);
+            RemoveLeaf(node);
+            FreeNode(node);
         }
         _particleMap.Clear();
     }
@@ -875,10 +878,18 @@ public class Tree
             combinedAABB.Merge(_nodes[idx].GetAABB(), leafAABB);
             var combinedSurfaceArea = combinedAABB.GetSurfaceArea();
             
+            // 새로운 leaf를 넣는데 필요한 비용
             var cost = 2.0f * combinedSurfaceArea;
 
+            // 최소 비용
             var inheritanceCost = 2.0f * (combinedSurfaceArea - surfaceArea);
 
+            // 여기서부턴 어느쪽에 넣을지에 대한 비용 계산 후 최적화 하는느낌으로다가
+            // 연산 후 비용이 낮은 쪽으로 leaf를 넣어준다는 느낌
+            // 해당 while문자체가 Linked-List로 트리 구현 시 재귀적으로 노드를 넣을 곳을 찾는 방식이며\
+            // while문 최하단에 idx를 세팅해주고 끝난다. 
+            // 이것은 최종적으로 while문을 빠져나갈때 leaf를 연결할 노드를 칭하며 while문 밖에서
+            // 새로운 연결에 대한 세팅이 이뤄진다.
             float costLeft;
             if (_nodes[left].IsLeaf())
             {
@@ -926,7 +937,10 @@ public class Tree
             }
         }
 
+        // 연결할 노드 Index
+        // 첫 루트 세팅시 여기는 들어오지도 않음
         var sibling = idx;
+        
         var oldParent = _nodes[sibling].GetParentIdx();
         var newParent = AllocateNode();
 
@@ -981,6 +995,7 @@ public class Tree
             _root = AABB.NULL_NODE;
             return;
         }
+        // !isLeaf 예외처리해줘야함 -> Particle이 저장된 Node는 무조건 Leaf인데 부모 노드가 들어와서 삭제되면 안되기 때문
 
 
         var parent = _nodes[leaf].GetParentIdx();
@@ -991,7 +1006,7 @@ public class Tree
         {
             sibling = _nodes[parent].GetRightIdx();
         }
-        else
+        else //예외 처리 추가해야함 -- getRight == leaf -> Left,Right 모두 아닌경우엔 err return 하도록
         {
             sibling = _nodes[parent].GetLeftIdx();
         }
