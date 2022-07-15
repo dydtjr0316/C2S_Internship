@@ -87,13 +87,17 @@ public class MainProgram
         // 고정 좌표로 테스트 한번 해보기
         tree.InsertParticle(0, ref pos, (float)rand.NextDouble());
         pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        Console.Write(pos[0] + "---" + pos[1]+"\n");
         tree.InsertParticle(1, ref pos, (float)rand.NextDouble());
         pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        Console.Write(pos[0] + "---" + pos[1]+"\n");
         tree.InsertParticle(2, ref pos, (float)rand.NextDouble());
         pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        Console.Write(pos[0] + "---" + pos[1]+"\n");
         tree.InsertParticle(3, ref pos, (float)rand.NextDouble());
         pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
-         tree.InsertParticle(4, ref pos, (float)rand.NextDouble());
+        Console.Write(pos[0] + "---" + pos[1]+"\n");
+        tree.InsertParticle(4, ref pos, (float)rand.NextDouble());
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
         // tree.InsertParticle(5, ref pos, (float)rand.NextDouble());
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };

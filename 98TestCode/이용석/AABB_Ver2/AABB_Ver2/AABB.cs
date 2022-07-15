@@ -381,12 +381,16 @@ public class Tree
 
     public void printTree()
     {
-        foreach (var obj in _nodes)
+        for (int i = 0 ;i < 9;++i)
         {
-            Console.Write("Height : "+obj.GetHeight()+"\n");
-            Console.Write("ParticleIdx : "+obj.GetParticleIdx()+"\n");
-            //obj.GetAABB().ComputeCenter();
-            Console.Write("ParticlePos : "+obj.GetAABB().ComputeCenter()[0]+" - "+obj.GetAABB().ComputeCenter()[1]+"\n"+"\n");
+            Console.Write("Node ID : "+i+"\n");
+            Console.Write("ParticleIdx : "+_nodes[i].GetParticleIdx()+"\n");
+            Console.Write("ParentIdx : "+_nodes[i].GetParentIdx()+"\n");
+            Console.Write("Height : "+_nodes[i].GetHeight()+"\n");
+            Console.Write("LeftIdx : "+_nodes[i].GetLeftIdx()+"\n");
+            Console.Write("RightIdx : "+_nodes[i].GetRightIdx()+"\n");
+            Console.Write("AABB_Min : "+_nodes[i].GetAABB().GetLowerBound()[0]+" - "+_nodes[i].GetAABB().GetLowerBound()[1]+"\n");
+            Console.Write("AABB_Max : "+_nodes[i].GetAABB().GetUppderBound()[0]+" - "+_nodes[i].GetAABB().GetUppderBound()[1]+"\n"+"\n");
             
         }
     }
@@ -601,6 +605,13 @@ public class Tree
 
         // particle(player) id 삽입
         _nodes[node].SetParticleIdx(particle);
+        Console.Write("Insert Particle\n");
+        Console.Write("ID->"+particle+" || ");
+        Console.Write("nodeID->"+node+" || ");
+        Console.Write("aabb : "+_nodes[node].GetAABB().GetLowerBound()[0]+"<>" + _nodes[node].GetAABB().GetLowerBound()[1]);
+        Console.Write("aabb : "+_nodes[node].GetAABB().GetUppderBound()[0]+"<>" + _nodes[node].GetAABB().GetUppderBound()[1]);
+        Console.Write("------------------------------------------------\n");
+
 
     }
     
@@ -644,6 +655,9 @@ public class Tree
 
         // particle(player) id 삽입
         _nodes[node].SetParticleIdx(particle);
+       
+        
+        
     }
 
     public void RemoveParticle(int particleIdx)
@@ -924,7 +938,7 @@ public class Tree
             {
                 _nodes[oldParent].SetLeftIdx(newParent);
             }
-            else
+            else 
             {
                 _nodes[oldParent].SetRightIdx(newParent);
             }
