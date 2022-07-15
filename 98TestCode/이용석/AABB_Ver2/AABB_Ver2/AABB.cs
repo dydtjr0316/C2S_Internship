@@ -381,6 +381,7 @@ public class Tree
 
     public void printTree()
     {
+        Console.Write("<<<<<<<<<<<<<<<<<<<<PrintTree>>>>>>>>>>>>>>>>>>>");
         for (int i = 0 ;i < 9;++i)
         {
             Console.Write("Node ID : "+i+"\n");
@@ -390,7 +391,8 @@ public class Tree
             Console.Write("LeftIdx : "+_nodes[i].GetLeftIdx()+"\n");
             Console.Write("RightIdx : "+_nodes[i].GetRightIdx()+"\n");
             Console.Write("AABB_Min : "+_nodes[i].GetAABB().GetLowerBound()[0]+" - "+_nodes[i].GetAABB().GetLowerBound()[1]+"\n");
-            Console.Write("AABB_Max : "+_nodes[i].GetAABB().GetUppderBound()[0]+" - "+_nodes[i].GetAABB().GetUppderBound()[1]+"\n"+"\n");
+            Console.Write("AABB_Max : "+_nodes[i].GetAABB().GetUppderBound()[0]+" - "+_nodes[i].GetAABB().GetUppderBound()[1]+"\n");
+            Console.Write("****************************************************************\n\n");
             
         }
     }
@@ -607,10 +609,10 @@ public class Tree
         _nodes[node].SetParticleIdx(particle);
         Console.Write("Insert Particle\n");
         Console.Write("ID->"+particle+" || ");
-        Console.Write("nodeID->"+node+" || ");
-        Console.Write("aabb : "+_nodes[node].GetAABB().GetLowerBound()[0]+"<>" + _nodes[node].GetAABB().GetLowerBound()[1]);
-        Console.Write("aabb : "+_nodes[node].GetAABB().GetUppderBound()[0]+"<>" + _nodes[node].GetAABB().GetUppderBound()[1]);
-        Console.Write("------------------------------------------------\n");
+        Console.Write("nodeID->"+node+"\n");
+        Console.Write("Min aabb : "+_nodes[node].GetAABB().GetLowerBound()[0]+"<>" + _nodes[node].GetAABB().GetLowerBound()[1]+"\n");
+        Console.Write("Max aabb : "+_nodes[node].GetAABB().GetUppderBound()[0]+"<>" + _nodes[node].GetAABB().GetUppderBound()[1]+"\n");
+        Console.Write("------------------------------------------------\n"+"\n");
 
 
     }

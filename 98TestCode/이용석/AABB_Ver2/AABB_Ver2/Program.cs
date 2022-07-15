@@ -1,7 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AABB_Ver2;
+#define FIX_DATA_TEST_VER
 
+using AABB_Ver2;
 public static class ListTemplate
 {
     public static void Resize<T>(this List<T> list, int size)
@@ -81,23 +82,69 @@ public class MainProgram
 
         Tree tree = new Tree(2, 0.1f, ref periodicity, ref boxSize, 16);
 
-        List<float> pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+        List<float> pos;
+        float r = (float)rand.NextDouble();
 
+        // pos = new List<float>(10)
+        // {
+        //     (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f,
+        //     // (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f,
+        //     // (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f,
+        //     // (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f,
+        //     // (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f,
+        // };
+        float randMulValue = 100.0f;
+        float randRMulValue = 3.0f;// fix value로 사용중
+        
+        
+#if FIX_DATA_TEST_VER
+        pos = new List<float>(2) { 88.33573f,5.368899f };
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + randRMulValue + "\n");
+        tree.InsertParticle(0, ref pos, randRMulValue);
 
+        pos = new List<float>(2) { 42.113247f,13.384803f };
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + randRMulValue + "\n");
+        tree.InsertParticle(1, ref pos, randRMulValue);
+
+        pos = new List<float>(2) {37.538536f,49.318657f };
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + randRMulValue + "\n");
+        tree.InsertParticle(2, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { 20.5316f,35.824306f };
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + randRMulValue + "\n");
+        tree.InsertParticle(3, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { 71.68918f,7.4194775f };
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + randRMulValue + "\n");
+        tree.InsertParticle(4, ref pos, randRMulValue);
+        
+#else // FIX_DATA_TEST_VER
+        pos = new List<float>(2) { (float)rand.NextDouble() * randMulValue, (float)rand.NextDouble() * randMulValue };
         // 고정 좌표로 테스트 한번 해보기
-        tree.InsertParticle(0, ref pos, (float)rand.NextDouble());
-        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
-        Console.Write(pos[0] + "---" + pos[1]+"\n");
-        tree.InsertParticle(1, ref pos, (float)rand.NextDouble());
-        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
-        Console.Write(pos[0] + "---" + pos[1]+"\n");
-        tree.InsertParticle(2, ref pos, (float)rand.NextDouble());
-        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
-        Console.Write(pos[0] + "---" + pos[1]+"\n");
-        tree.InsertParticle(3, ref pos, (float)rand.NextDouble());
-        pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
-        Console.Write(pos[0] + "---" + pos[1]+"\n");
-        tree.InsertParticle(4, ref pos, (float)rand.NextDouble());
+       // r = (float)rand.NextDouble()*randRMulValue;
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + r + "\n");
+        tree.InsertParticle(0, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { (float)rand.NextDouble() * randMulValue, (float)rand.NextDouble() * randMulValue };
+       // r = (float)rand.NextDouble()*randRMulValue;
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + r + "\n");
+        tree.InsertParticle(1, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { (float)rand.NextDouble() * randMulValue, (float)rand.NextDouble() * randMulValue };
+        //r = (float)rand.NextDouble()*randRMulValue;
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + r + "\n");
+        tree.InsertParticle(2, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { (float)rand.NextDouble() * randMulValue, (float)rand.NextDouble() * randMulValue };
+        //r = (float)rand.NextDouble()*randRMulValue;
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + r + "\n");
+        tree.InsertParticle(3, ref pos, randRMulValue);
+
+        pos = new List<float>(2) { (float)rand.NextDouble() * randMulValue, (float)rand.NextDouble() * randMulValue };
+        //r = (float)rand.NextDouble()*randRMulValue;
+        Console.Write(pos[0] + "---" + pos[1] + "))) r = " + r + "\n");
+        tree.InsertParticle(4, ref pos, randRMulValue);
+
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
         // tree.InsertParticle(5, ref pos, (float)rand.NextDouble());
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
@@ -107,6 +154,8 @@ public class MainProgram
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
         // tree.InsertParticle(8, ref pos, (float)rand.NextDouble());
         // pos = new List<float>(2) { (float)rand.NextDouble()*10.0f, (float)rand.NextDouble()*10.0f };
+#endif // FIX_DATA_TEST_VER
+        
         tree.printTree();
     }
 }
