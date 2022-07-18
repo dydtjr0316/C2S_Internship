@@ -165,6 +165,7 @@ public class MainProgram
         //removeParticleID = ?;        
 #endif  // FIX_DATA_TEST_VER
         
+        tree.Query(4);
         tree.RemoveParticle(removeParticleID);
         tree.printTree();
     }

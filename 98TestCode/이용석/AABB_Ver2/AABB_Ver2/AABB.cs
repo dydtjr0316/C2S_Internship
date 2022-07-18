@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Numerics;
 namespace AABB_Ver2;
 using System;
+using System.Drawing;
+using System.Windows;
 
 /*
  * 전체적으로 vector resize를 해주는 이유가 뭔지 모르겠네,,,// 용석
@@ -11,6 +13,7 @@ using System;
 
 public class AABB
 {
+    
     private List<float> _lowerBound;
     private List<float> _upperBound;
     private List<float> _center;
@@ -159,7 +162,7 @@ public class AABB
         bool rv = true;
         if (touchIsOverlap)
         {
-            for (int i = 0; i < _lowerBound.Count; ++i)
+            for (int i = 0; i < /*원본->_lowerBound*/aabb._upperBound.Count; ++i)
             {
                 if (aabb._upperBound[i] < _lowerBound[i] || aabb._lowerBound[i] > _upperBound[i])
                 {
@@ -793,6 +796,12 @@ public class Tree
                 }
             }
 
+            for (int i = 0; i < _dimension; ++i)
+            {
+                nodeAABB.SetLowerBound(i, nodeAABB.GetLowerBoundByIdx(i)-20.0f);
+                nodeAABB.SetUpperBound(i, nodeAABB.GetUppderBoundByIdx(i)+20.0f);
+            }
+            
             if (aabb.Overlaps(nodeAABB, _touchIsOverlap))
             {
                 if (_nodes[node].IsLeaf())
