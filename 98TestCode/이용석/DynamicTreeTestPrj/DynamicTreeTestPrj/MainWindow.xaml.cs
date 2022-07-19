@@ -13,7 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using System.Runtime.Intrinsics;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
 namespace DynamicTreeTestPrj
 {
   public partial class MainWindow : Window
@@ -24,13 +27,37 @@ namespace DynamicTreeTestPrj
 
     private Brush _brush;
 
+    private Tree _tree;
+
+    private int _particleCnt = 0;
+
     public MainWindow()
     {
       InitializeComponent();
+      
+      Random rand = new Random();
+      var nSweeps = 100000; // The number of Monte Carlo sweeps.
+      var sampleInterval = 100; // The number of sweeps per sample.
+      var nSmall = 1000; // The number of small particles.
+      var nLarge = 100; // The number of large particles.
+      var diameterSmall = 1.0f; // The diameter of the small particles.
+      var diameterLarge = 10.0f; // The diameter of the large particles.
+      var density = 0.1f; // The system density.
+      var maxDisp = 0.1f; // Maximum trial displacement (in units of diameter).
 
-      _timer.Tick += GameLoop;
-      _timer.Interval = TimeSpan.FromMilliseconds((20));
-      _timer.Start();
+
+      List<bool> periodicity = new List<bool>(2) { false, false };
+
+// Work out base length of simulation box.
+      var baseLength =
+        Math.Pow((Math.PI * (nSmall * diameterSmall + nLarge * diameterLarge)) / (4.0f * density),
+          1.0f / 2.0f);
+
+      List<float> boxSize = new List<float>(2) { (float)baseLength, (float)baseLength };
+
+      _tree = new Tree(2, 0.1f, ref periodicity, ref boxSize, 1000);
+
+
     }
 
     private void GameLoop(object? sender, EventArgs e)
@@ -40,48 +67,44 @@ namespace DynamicTreeTestPrj
 
     private void ClickOnCanvas(object sender, MouseButtonEventArgs ev)
     {
+      List<float> tempPos = new List<float>();
+      tempPos.Add((float)ev.GetPosition((IInputElement)sender).X);
+      tempPos.Add((float)ev.GetPosition((IInputElement)sender).Y);
 
-      Rectangle rect = new Rectangle
+      if (_particleCnt == 2)
       {
-        Tag = "Player",
-        Height = 100,
-        Width = 100,
-        Stroke = Brushes.Black,
-        StrokeThickness = 1,
-      };
-      _brush = new SolidColorBrush(Colors.Black);
+        int i = 0;
+      }
+      _tree.InsertParticle(_particleCnt,ref tempPos, 40);
+      ++_particleCnt;
 
-      Canvas.SetLeft(rect, ev.GetPosition((IInputElement)sender).X);
-      Canvas.SetTop(rect, ev.GetPosition((IInputElement)sender).Y);
-      MyCanvas.Children.Add(rect);
-
-      string temp = "";
-      temp += ev.GetPosition((IInputElement)sender).X;
-      temp += " , ";
-      temp += ev.GetPosition((IInputElement)sender).Y;
-
-      //RenderTransform = new SkewTransform(0, 0);
-      
-      TextBox textBox = new TextBox
+      for (int i = 0; i < _tree.GetnParticles(); ++i)
       {
-        Text = temp,
-        // AcceptsReturn = true,
-        // AcceptsTab = true,
-        //
-        // TextAlignment = TextAlignment.Center,
-        // TextWrapping  = TextWrapping.Wrap,
-         //RenderTransform = new RotateTransform(0),
+        if (!_tree.GetNodes()[i]._isAlloc) continue;
+        MyCanvas.Children.Remove(_tree.GetNodes()[i]._rect);
+        _tree.GetNodes()[i]._rect = new Rectangle()
+        {
+          Tag = "Player",
+          Height = 
+            _tree.GetNodes()[i].GetAABB().GetUppderBound()[1] -
+            _tree.GetNodes()[i].GetAABB().GetLowerBound()[1],
+          
+          Width = _tree.GetNodes()[i].GetAABB().GetUppderBound()[0] -
+                  _tree.GetNodes()[i].GetAABB().GetLowerBound()[0],
+          Stroke = Brushes.Black,
+          StrokeThickness = 1,
+        };
+        _tree.GetNodes()[i]._brush = new SolidColorBrush(Colors.Black);
         
-       // RenderTransformOrigin = new Point(0.5, 0.5),
-        RenderTransform = new ScaleTransform(1, -1),
-       
+        Console.Write("Node"+i+"\n");
+        Console.Write("Min : "+_tree.GetNodes()[i].GetAABB().GetLowerBound()[0]+" - "+_tree.GetNodes()[i].GetAABB().GetLowerBound()[1]+"\n");
+        Console.Write("Max : "+_tree.GetNodes()[i].GetAABB().GetUppderBound()[0]+" - "+_tree.GetNodes()[i].GetAABB().GetUppderBound()[1]+"\n");
 
-        
-        
-      };
-      Canvas.SetLeft(textBox, ev.GetPosition((IInputElement)sender).X);
-      Canvas.SetTop(textBox, ev.GetPosition((IInputElement)sender).Y);
-      MyCanvas.Children.Add(textBox);
+        _tree.printTree();
+        Canvas.SetLeft(_tree.GetNodes()[i]._rect,100);
+        Canvas.SetTop(_tree.GetNodes()[i]._rect, 100);
+        MyCanvas.Children.Add(_tree.GetNodes()[i]._rect);
+      }
 
     }
   }

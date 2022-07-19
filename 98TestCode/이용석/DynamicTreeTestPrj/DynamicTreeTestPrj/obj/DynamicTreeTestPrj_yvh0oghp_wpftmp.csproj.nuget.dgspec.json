@@ -1,0 +1,63 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\DynamicTreeTestPrj\\DynamicTreeTestPrj\\DynamicTreeTestPrj.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\DynamicTreeTestPrj\\DynamicTreeTestPrj\\DynamicTreeTestPrj.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\DynamicTreeTestPrj\\DynamicTreeTestPrj\\DynamicTreeTestPrj.csproj",
+        "projectName": "DynamicTreeTestPrj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\DynamicTreeTestPrj\\DynamicTreeTestPrj\\DynamicTreeTestPrj.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\DynamicTreeTestPrj\\DynamicTreeTestPrj\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\user\\.dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -235,6 +235,8 @@ public class Node
     private int _height;
     private int _particleIdx;
 
+    public int _nodeIdx;
+
     #endregion
 
     public Node()
@@ -275,6 +277,10 @@ public class Node
     }
     public void SetParentIdx(in int parentIdx)
     {
+        if (_nodeIdx == parentIdx)
+        {
+            int i = 0;
+        }
         _parentIdx = parentIdx;
     }
 
@@ -313,6 +319,7 @@ public class Node
     }
     public void SetParticleIdx(int particleIdx)
     {
+        
         _particleIdx = particleIdx;
     }
 
@@ -385,7 +392,7 @@ public class Tree
     public void printTree()
     {
         Console.Write("<<<<<<<<<<<<<<<<<<<<PrintTree>>>>>>>>>>>>>>>>>>>");
-        for (int i = 0 ;i < 9;++i)
+        for (int i = 0 ;i < 15;++i)
         {
             Console.Write("Node ID : "+i+"\n");
             Console.Write("ParticleIdx : "+_nodes[i].GetParticleIdx()+"\n");
@@ -524,22 +531,22 @@ public class Tree
         if (_freeList == AABB.NULL_NODE)
         {
             _nodeCapacity *= 2;
-
-            _nodes.Capacity = _nodeCapacity;
-            //  _nodes.Resize(_nodeCapacity, new Node());
-            for (var i = 0;i<_nodes.Capacity-1;++i)
+            var beforAlloc = _nodes.Capacity;
+            var afterAlloc = _nodes.Capacity*2;
+            
+            for (var i = beforAlloc-1;i<afterAlloc;++i)
             {
                 _nodes.Add(new Node());
             }
 
-            for (int i = _nodeCount; i < _nodeCapacity - 1; ++i)
+            for (int i = _nodeCount; i < _nodeCapacity ; ++i)
             {
                 _nodes[i].SetNextIdx(i+1);
                 _nodes[i].SetHeight(-1);
             }
             _nodes[_nodeCapacity-1].SetNextIdx(AABB.NULL_NODE);
             _nodes[_nodeCapacity-1].SetHeight(-1);
-            _freeList = 0;
+            _freeList = beforAlloc;
         }
 
         // 초기화??
@@ -553,6 +560,7 @@ public class Tree
         // 주석 코드는 원래 있었으나 resize를 제거하며 삭제함
         // 혹시 resize의 필요성이 생긴다면 다시 작성
         _nodeCount++;
+        _nodes[node]._nodeIdx = node;
 
         return node;
     }
@@ -603,6 +611,10 @@ public class Tree
         _nodes[node].SetHeightZero();
         
         // 추가 구현 해야하는 부분임 // 구현 후 주석 해제
+        if (node == 97)
+        {
+            int i = 0;
+        }
         InsertLeaf(node);
 
         // 파티클 맵에 id와 저장된 노드 저장
@@ -1127,7 +1139,7 @@ public class Tree
             
             _nodes[left].SetLeftIdx(node);
             _nodes[left].SetParentIdx(_nodes[node].GetParentIdx());
-            _nodes[left].SetParentIdx(left);
+            _nodes[node].SetParentIdx(left);
 
             if (_nodes[left].GetParentIdx() != AABB.NULL_NODE)
             {
