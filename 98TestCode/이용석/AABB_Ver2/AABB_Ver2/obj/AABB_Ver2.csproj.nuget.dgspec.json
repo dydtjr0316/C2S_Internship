@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj": {}
+    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj": {
+    "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj",
+        "projectUniqueName": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj",
         "projectName": "AABB_Ver2",
-        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\obj\\",
+        "projectPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\AABB_Ver2.csproj",
+        "packagesPath": "C:\\Users\\emtm9\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\emtm9\\Documents\\GitHub\\C2S_Internship\\98TestCode\\이용석\\AABB_Ver2\\AABB_Ver2\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\emtm9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\user\\.dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
