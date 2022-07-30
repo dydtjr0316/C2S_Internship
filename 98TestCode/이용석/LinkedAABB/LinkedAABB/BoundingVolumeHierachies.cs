@@ -290,7 +290,7 @@ public class Tree
     private void InsertTree(Node current, Node target, float bestcost, float inheritedcost, ref Node candidate)
     {
         var newVol = Merge(current.GetBoundingBox(), target.GetBoundingBox());
-        float curCost = inheritedcost + newVol.GetVolume();
+        var curCost = inheritedcost + newVol.GetVolume();
         inheritedcost += newVol.GetVolume() - current.GetBoundingBox().GetVolume();
 
         if (curCost <= bestcost || bestcost < 0)

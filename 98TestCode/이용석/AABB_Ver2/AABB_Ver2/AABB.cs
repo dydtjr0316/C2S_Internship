@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Numerics;
 namespace AABB_Ver2;
 using System;
+using System.Drawing;
+using System.Windows;
 
 /*
  * 전체적으로 vector resize를 해주는 이유가 뭔지 모르겠네,,,// 용석
@@ -11,6 +13,7 @@ using System;
 
 public class AABB
 {
+    
     private List<float> _lowerBound;
     private List<float> _upperBound;
     private List<float> _center;
@@ -159,7 +162,7 @@ public class AABB
         bool rv = true;
         if (touchIsOverlap)
         {
-            for (int i = 0; i < _lowerBound.Count; ++i)
+            for (int i = 0; i < /*원본->_lowerBound*/aabb._upperBound.Count; ++i)
             {
                 if (aabb._upperBound[i] < _lowerBound[i] || aabb._lowerBound[i] > _upperBound[i])
                 {
@@ -232,6 +235,8 @@ public class Node
     private int _height;
     private int _particleIdx;
 
+    public int _nodeIdx;
+
     #endregion
 
     public Node()
@@ -272,6 +277,10 @@ public class Node
     }
     public void SetParentIdx(in int parentIdx)
     {
+        if (_nodeIdx == parentIdx)
+        {
+            int i = 0;
+        }
         _parentIdx = parentIdx;
     }
 
@@ -310,6 +319,7 @@ public class Node
     }
     public void SetParticleIdx(int particleIdx)
     {
+        
         _particleIdx = particleIdx;
     }
 
@@ -381,12 +391,18 @@ public class Tree
 
     public void printTree()
     {
-        foreach (var obj in _nodes)
+        Console.Write("<<<<<<<<<<<<<<<<<<<<PrintTree>>>>>>>>>>>>>>>>>>>");
+        for (int i = 0 ;i < 15;++i)
         {
-            Console.Write("Height : "+obj.GetHeight()+"\n");
-            Console.Write("ParticleIdx : "+obj.GetParticleIdx()+"\n");
-            //obj.GetAABB().ComputeCenter();
-            Console.Write("ParticlePos : "+obj.GetAABB().ComputeCenter()[0]+" - "+obj.GetAABB().ComputeCenter()[1]+"\n"+"\n");
+            Console.Write("Node ID : "+i+"\n");
+            Console.Write("ParticleIdx : "+_nodes[i].GetParticleIdx()+"\n");
+            Console.Write("ParentIdx : "+_nodes[i].GetParentIdx()+"\n");
+            Console.Write("Height : "+_nodes[i].GetHeight()+"\n");
+            Console.Write("LeftIdx : "+_nodes[i].GetLeftIdx()+"\n");
+            Console.Write("RightIdx : "+_nodes[i].GetRightIdx()+"\n");
+            Console.Write("AABB_Min : "+_nodes[i].GetAABB().GetLowerBound()[0]+" - "+_nodes[i].GetAABB().GetLowerBound()[1]+"\n");
+            Console.Write("AABB_Max : "+_nodes[i].GetAABB().GetUppderBound()[0]+" - "+_nodes[i].GetAABB().GetUppderBound()[1]+"\n");
+            Console.Write("****************************************************************\n\n");
             
         }
     }
@@ -515,22 +531,22 @@ public class Tree
         if (_freeList == AABB.NULL_NODE)
         {
             _nodeCapacity *= 2;
-
-            _nodes.Capacity = _nodeCapacity;
-            //  _nodes.Resize(_nodeCapacity, new Node());
-            for (var i = 0;i<_nodes.Capacity-1;++i)
+            var beforAlloc = _nodes.Capacity;
+            var afterAlloc = _nodes.Capacity*2;
+            
+            for (var i = beforAlloc-1;i<afterAlloc;++i)
             {
                 _nodes.Add(new Node());
             }
 
-            for (int i = _nodeCount; i < _nodeCapacity - 1; ++i)
+            for (int i = _nodeCount; i < _nodeCapacity ; ++i)
             {
                 _nodes[i].SetNextIdx(i+1);
                 _nodes[i].SetHeight(-1);
             }
             _nodes[_nodeCapacity-1].SetNextIdx(AABB.NULL_NODE);
             _nodes[_nodeCapacity-1].SetHeight(-1);
-            _freeList = 0;
+            _freeList = beforAlloc;
         }
 
         // 초기화??
@@ -544,6 +560,7 @@ public class Tree
         // 주석 코드는 원래 있었으나 resize를 제거하며 삭제함
         // 혹시 resize의 필요성이 생긴다면 다시 작성
         _nodeCount++;
+        _nodes[node]._nodeIdx = node;
 
         return node;
     }
@@ -594,6 +611,10 @@ public class Tree
         _nodes[node].SetHeightZero();
         
         // 추가 구현 해야하는 부분임 // 구현 후 주석 해제
+        if (node == 97)
+        {
+            int i = 0;
+        }
         InsertLeaf(node);
 
         // 파티클 맵에 id와 저장된 노드 저장
@@ -601,6 +622,13 @@ public class Tree
 
         // particle(player) id 삽입
         _nodes[node].SetParticleIdx(particle);
+        Console.Write("Insert Particle\n");
+        Console.Write("ID->"+particle+" || ");
+        Console.Write("nodeID->"+node+"\n");
+        Console.Write("Min aabb : "+_nodes[node].GetAABB().GetLowerBound()[0]+"<>" + _nodes[node].GetAABB().GetLowerBound()[1]+"\n");
+        Console.Write("Max aabb : "+_nodes[node].GetAABB().GetUppderBound()[0]+"<>" + _nodes[node].GetAABB().GetUppderBound()[1]+"\n");
+        Console.Write("------------------------------------------------\n"+"\n");
+
 
     }
     
@@ -644,6 +672,9 @@ public class Tree
 
         // particle(player) id 삽입
         _nodes[node].SetParticleIdx(particle);
+       
+        
+        
     }
 
     public void RemoveParticle(int particleIdx)
@@ -654,11 +685,14 @@ public class Tree
             PrintError(ErrCode.NOT_EXISTKEY_MAP, GetErrorData());
         }
 
+        
+        // 이부분 결국 RemoveLeaf가 완료 되지않고 map에서 제외하는 꼴이 되는거아닌가?
+        // err return 하게되면 particleIdx만 빠지고 노드는 제거안될수도있는데
         _particleMap.Remove(particleIdx);
         
         // 메서드 구현 후 주석 해제
-        //RemoveLeaf(node);
-        //FreeNode(node);
+        RemoveLeaf(node);
+        FreeNode(node);
     }
 
     public void RemoveAllParticle()
@@ -667,8 +701,8 @@ public class Tree
         {
             int node = obj.Value;
             // 메서드 구현 후 주석 해제
-            //RemoveLeaf(node);
-            //FreeNode(node);
+            RemoveLeaf(node);
+            FreeNode(node);
         }
         _particleMap.Clear();
     }
@@ -774,6 +808,12 @@ public class Tree
                 }
             }
 
+            for (int i = 0; i < _dimension; ++i)
+            {
+                nodeAABB.SetLowerBound(i, nodeAABB.GetLowerBoundByIdx(i)-20.0f);
+                nodeAABB.SetUpperBound(i, nodeAABB.GetUppderBoundByIdx(i)+20.0f);
+            }
+            
             if (aabb.Overlaps(nodeAABB, _touchIsOverlap))
             {
                 if (_nodes[node].IsLeaf())
@@ -859,10 +899,18 @@ public class Tree
             combinedAABB.Merge(_nodes[idx].GetAABB(), leafAABB);
             var combinedSurfaceArea = combinedAABB.GetSurfaceArea();
             
+            // 새로운 leaf를 넣는데 필요한 비용
             var cost = 2.0f * combinedSurfaceArea;
 
+            // 최소 비용
             var inheritanceCost = 2.0f * (combinedSurfaceArea - surfaceArea);
 
+            // 여기서부턴 어느쪽에 넣을지에 대한 비용 계산 후 최적화 하는느낌으로다가
+            // 연산 후 비용이 낮은 쪽으로 leaf를 넣어준다는 느낌
+            // 해당 while문자체가 Linked-List로 트리 구현 시 재귀적으로 노드를 넣을 곳을 찾는 방식이며\
+            // while문 최하단에 idx를 세팅해주고 끝난다. 
+            // 이것은 최종적으로 while문을 빠져나갈때 leaf를 연결할 노드를 칭하며 while문 밖에서
+            // 새로운 연결에 대한 세팅이 이뤄진다.
             float costLeft;
             if (_nodes[left].IsLeaf())
             {
@@ -910,7 +958,10 @@ public class Tree
             }
         }
 
+        // 연결할 노드 Index
+        // 첫 루트 세팅시 여기는 들어오지도 않음
         var sibling = idx;
+        
         var oldParent = _nodes[sibling].GetParentIdx();
         var newParent = AllocateNode();
 
@@ -924,7 +975,7 @@ public class Tree
             {
                 _nodes[oldParent].SetLeftIdx(newParent);
             }
-            else
+            else 
             {
                 _nodes[oldParent].SetRightIdx(newParent);
             }
@@ -965,6 +1016,7 @@ public class Tree
             _root = AABB.NULL_NODE;
             return;
         }
+        // !isLeaf 예외처리해줘야함 -> Particle이 저장된 Node는 무조건 Leaf인데 부모 노드가 들어와서 삭제되면 안되기 때문
 
 
         var parent = _nodes[leaf].GetParentIdx();
@@ -975,7 +1027,7 @@ public class Tree
         {
             sibling = _nodes[parent].GetRightIdx();
         }
-        else
+        else //예외 처리 추가해야함 -- getRight == leaf -> Left,Right 모두 아닌경우엔 err return 하도록
         {
             sibling = _nodes[parent].GetLeftIdx();
         }
@@ -1087,7 +1139,7 @@ public class Tree
             
             _nodes[left].SetLeftIdx(node);
             _nodes[left].SetParentIdx(_nodes[node].GetParentIdx());
-            _nodes[left].SetParentIdx(left);
+            _nodes[node].SetParentIdx(left);
 
             if (_nodes[left].GetParentIdx() != AABB.NULL_NODE)
             {
